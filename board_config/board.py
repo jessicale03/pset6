@@ -118,7 +118,7 @@ class Board:
         can_build = False
 
         for direction in self._valid_directions.keys():
-            if self.is_valid_move(worker, direction):
+            if self.is_valid_move(worker):
                 # self._workers[worker] = self._positions.pos[self._workers[worker].r + self._valid_directions[m_dir][0]][self._workers[worker].c + self._valid_directions[m_dir][1]]
                 # # self._positions.iter_center(self._workers[worker].row, self._workers[worker].column)
 

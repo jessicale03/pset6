@@ -11,29 +11,44 @@ class HumanPlayer(Player):
         # self._worker_input = "Select a worker to move (A, B, Y, Z): "
         # # self._move_input = "Select a direction to move (n, ne, e, se, s, sw, w, nw): "
         # self._direction_input = "Select a direction to build (n, ne, e, se, s, sw, w, nw)"
+
+        self.curr_player = curr_player
+        if self.curr_player == "white":
+            self.curr_player_index = 0
+        else:
+            self.curr_player_index = 1
         self._valid_workers = {'A', 'B', 'Y', 'Z'}
         self._valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
+
+
 
 
     def get_worker(self, opponent):
         # check if valid worker
         # check if the worker selected is theirs, 
         # check if there are available moves + build for that worker - build!!!
-        selected_worker = input("Select a worker to move (A, B, Y, Z): ")
+        selected_worker = input("Select a worker to move\n")
         if selected_worker not in self._valid_workers:
             print("Not a valid worker")
-        elif selected_worker not in opponent.workers:
+        elif selected_worker in self._workers: # TODO - for some reason the selected worker is NOT in self workers array
             print("This is not your worker")
-        elif not self._board.check_valid_move_AND_buid(worker): # check build 
+        elif not self._board.check_valid_move_AND_buid(selected_worker): # check build 
             print("There are no possible moves for this worker")
+        
+        
+        
+        
 
         else:
+            print(selected_worker)
+            print(self._valid_workers)
+            print(self._workers)
             return selected_worker
 
     def get_move_direction(self, worker):
         # check if valid direction
         # check if they can move in that direction
-        direction = input("Select a direction to move (n, ne, e, se, s, sw, w, nw): ")
+        direction = input("Select a direction to move (n, ne, e, se, s, sw, w, nw)\n ")
 
         if direction not in self._valid_directions:
             print("Not a valid direction.")
@@ -45,7 +60,7 @@ class HumanPlayer(Player):
 
     
     def get_build_direction(self, worker, opponent):
-        build_direction = input("Select a direction to build (n, ne, e, se, s, sw, w, nw): ")
+        build_direction = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n ")
 
         if build_direction not in self._valid_directions:
             print("Not a valid direction.")

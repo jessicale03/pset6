@@ -2,10 +2,10 @@ class Player:
     """
     abstract class for human, AI, and random player to inherit from
     """
-    def __init__(self, curr_player, board):
+    def __init__(self, curr_player_index, board):
         self._board = board
-        self._curr_player = curr_player
-        if (self._curr_player == 0):
+        self._curr_player_index = curr_player_index # 0 or 1
+        if (self._curr_player_index == 0):
             self._workers = ['A', 'B']
             self._type = 'white'
         else:
@@ -35,5 +35,5 @@ class Player:
         useable_workers = []
         for worker in self._workers:
             if self._board.check_valid_move_AND_buid(worker):
-                useable_worker.append(worker)
+                useable_workers.append(worker)
         return useable_workers

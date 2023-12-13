@@ -31,7 +31,7 @@ class Santorini:
         self._curr_player = self._players[self._white_player_index] # start with white
 
 
-    def _set_curr_player(self):
+    def _set_next_player(self):
         if self._curr_player._type == "white":
             self._curr_player = self._players[self._blue_player_index]
         elif self._curr_player._type == "blue":
@@ -44,10 +44,10 @@ class Santorini:
         # array of array of turns
         if curr_player._get_type == "white":
             string1 = "Turn: ", self._turn_count, "white (AB)"
-            self._set_curr_player()
+            self._set_next_player()
         else:
             string2 = "Turn: ", self._turn_count, "blue (YZ)"
-            self._set_curr_player()
+            self._set_next_player()
         self._turn_count += 1
         self.history_turns(curr_player, self._turn_count)
 
@@ -61,10 +61,11 @@ class Santorini:
 
     # ONLY a human
     def make_moves(self): #make Moves() object
-        curr_player = self._players[self._curr_player_index]
-        opponent = self._players[1 - self._curr_player] 
 
-        if opponent.has_won():
+        curr_player = self._curr_player
+        opponent = self._players[1 - self._curr_player.curr_player_index] 
+
+        if opponent._has_won():
             print(opponent._type + " has won")
 
         # run CLI to get inputs if HUMAN PLAYER
