@@ -1,5 +1,5 @@
 from board_config.Board import Board
-from board_moves.Move import Move
+from board_moves.Move import MakeMoves
 from player.Player import Player
 from player.PlayerManager import SetPlayer
 
@@ -21,9 +21,14 @@ class Santorini:
         self._players[self._white_player_index] = self._player_settings.set_type_player(self._white, self._white_player_index, self._board)
 
         self._players[self._blue_player_index] = self._player_settings.set_type_player(self._blue, self._blue_player_index, self._board)
-        self._turn_count = 0
+        self._turn_count = 1
 
         self._curr_player = self._players[self._white_player_index] # start with white
+
+        # only necessary depending on which setting it is on
+        if self._undo_setting_enabled == "on"
+            self._move_history
+            self._move_history_strings = []
 
 
     def _set_curr_player(self):
@@ -42,16 +47,34 @@ class Santorini:
             string = f'Next Turn: {}'
 
 
-    def _switch_player(self, curr_player):
-        # curr_player = self._players[self._curr_player_index]
-        next_player = self._players[1 - self._curr_player_index]
-        return next_player
-
-    def execute_move(self):
+    # ONLY a human
+    def make_moves(self): #make Moves() object
         curr_player = self._players[self._curr_player_index]
-        next_player = self._switch_player(curr_player)
+        opponent = self._players[1 - self._curr_player] 
+
+        if opponent.has_won():
+            print(opponent._type + " has won")
+
+        # run CLI to get inputs if HUMAN PLAYER
+        # if self._player_setting == "human":
+        selected_worker = curr_player.get_worker(opponent)
+        move_direction = curr_player.get_move_direction(selected_worker)
+        build_direction = curr_player.get_build_direction(selected_worker, opponent)
+
+
+        move = MakeMoves(selected_worker, move_direction, build_direction)
+        move.make_moves(self._board)
+        move_string = f'{worker}, {m_dir}, {b_dir}'
+
+        self._move_history_strings.append(move_string)
+        self._move_history.append(move)
+
+        print(move_string)
+        print(self._board)
 
         # check if the player has won
  
+
+def 
 
 

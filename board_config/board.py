@@ -56,20 +56,17 @@ class Board:
         board_str_lst.append('+--+--+--+--+--+\n')
         return ''.join(board_str_lst)
 
-    def find_worker(self, worker_symbol):
-        for row in range(len(self.cells)):
-            for col in range(len(self.cells[0])):
-                if self.cells[row][col].worker and self.cells[row][col].worker.symbol == worker_symbol:
-                    return row, col
-        return None, None
+    # def find_worker(self, worker_symbol):
+        # for row in range(len(self.cells)):
+            # for col in range(len(self.cells[0])):
+                # # if self.cells[row][col].worker and self.cells[row][col].worker.symbol == worker_symbol:
+                    # return row, col
+        # return None, None
 
     def is_valid_move(self, worker):
-        # if 0 <= 5 < self._workers[worker].row and 0 <= 5 < self._worker[workers].column 
-            # return true
-        
         return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column     < 5:
 
-       
+    
        
     # def move_worker(self, from_row, from_col, to_row, to_col):
         # # self.cells[to_row][to_col].worker = self.cells[from_row][from_col].worker
@@ -78,6 +75,8 @@ class Board:
     # def valid_move(self, worker, direction, row):
         # check if the move is within the row and column limits
 
+    def valid_moveable_workers(self)
+    
     def move(self, worker, direction):
       """
       Moves the specified worker
@@ -89,6 +88,9 @@ class Board:
         self._positions.pos_arr[self._workers[worker].row + self._direction_dict[direction][0]][self._workers[worker].column + self._direction_dict[direction][1]].height += 1
    
     def undo_build():
+        pass
+
+    def undo_move():
         pass
 
     def get_height(self, worker):

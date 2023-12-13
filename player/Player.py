@@ -26,4 +26,14 @@ class Player:
         for name in self._workers:
             if self._board.get_height(name) == 3:
                 return True
+            elif len(self.useable_workers()) == 0:
+                return True
             return False 
+
+    def useable_workers(self):
+        # array of workers that still can move
+        useable_workers = []
+        for worker in self._workers:
+            if self._board.check_valid_move_AND_buid(worker):
+                useable_worker.append(worker)
+        return useable_workers
