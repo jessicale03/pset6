@@ -22,7 +22,7 @@ class Board:
         self._workers['Y'] = self._positions.pos[1][1]
         self._workers['Z'] = self._positions.pos[3][3]
 
-        self._curr_iter_idx = None
+        self._iter_idex = None
         self._iter_center_x = 0
         self._iter_center_y = 0
 
@@ -66,9 +66,24 @@ class Board:
     def is_valid_move(self, row, col):
         return 0 <= row < len(self.cells) and 0 <= col < len(self.cells[0]) and not self.cells[row][col].worker
 
-    def move_worker(self, from_row, from_col, to_row, to_col):
-        self.cells[to_row][to_col].worker = self.cells[from_row][from_col].worker
-        self.cells[from_row][from_col].worker = None
+    # def move_worker(self, from_row, from_col, to_row, to_col):
+        # # self.cells[to_row][to_col].worker = self.cells[from_row][from_col].worker
+        # self.cells[from_row][from_col].worker = None
+
+    def move(self, worker, direction):
+      """
+      Moves the specified worker
+      """
+      self._workers[worker] = self._positions.pos[self._workers[worker].r + self._valid_directions[direction][0]][self._workers[worker].c + self._valid_directions[direction][1]]
+
+
+    def build(self, worker, direction):
+        self._positions.pos_arr[self._workers[worker_name].r + self._direction_dict[direction][0]][self._workers[worker_name].c + self._direction_dict[direction][1]].h += 1
+   
+    def undo_build():
+        pass
+
+
 
     def build(self, row, col):
         self.cells[row][col].building_level += 1
