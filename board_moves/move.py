@@ -1,6 +1,6 @@
 class Move():
     """ Move class that executes a move """
-    def __init__(self, worker, move_direction, build_direction:
+    def __init__(self, worker, move_direction, build_direction):
         self._worker = worker
         self._m_dir = move_direction
         self._b_dir = build_direction
