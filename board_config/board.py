@@ -63,11 +63,11 @@ class Board:
                     return row, col
         return None, None
 
-    def is_valid_move(self, worker):
+    # def is_valid_move(self, worker):
         # if 0 <= 5 < self._workers[worker].row and 0 <= 5 < self._worker[workers].column 
             # return true
         
-        return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column     < 5:
+        # return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column< 5
 
        
        
