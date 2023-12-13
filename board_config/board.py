@@ -101,7 +101,7 @@ class Board:
 
 
     def empty_cell(self, position):
-        is_empty = false
+        is_empty = False 
         if position.height == 4:
             return is_empty
         
@@ -110,11 +110,11 @@ class Board:
             if position.row == other.row and position.column == other.column:
                 return is_empty
 
-        return true
+        return True
 
     def check_valid_move_AND_buid(self, worker):
         # go through steps of moving and building and if it works, true, else false
-        can_build = false
+        can_build = False
 
         for direction in self._valid_directions.keys():
             if self.is_valid_move(worker, direction):
@@ -126,6 +126,6 @@ class Board:
                 for pos in self._positions:
                     if self.empty_cell(pos):
                         # self._workers[worker] = self._positions.pos[self._workers[worker].r - self._direction_dict[m_dir][0]][self._workers[worker].c - self._valid_directions[mo_dir][1]]
-                        can_build = true
+                        can_build = True
         return can_build
                   

@@ -6,6 +6,8 @@ from player.PlayerManager import SetPlayer
 class Santorini:
     """
     combines all classes to set up the Santorini game
+    Singleton design pattern since we are creating one instance of the game that isopen
+    to reference
     """
     def __init__(self):
         self._board = Board()
@@ -13,7 +15,7 @@ class Santorini:
         self._blue = "blue"
         self._white_player_index = 0
         self._blue_player_index = 1
-        self._players = [Player(none,none)] # an array of type Player
+        self._players = [Player(None, None)] # an array of type Player
         # self._players.append(Player(self.white_player))
         # self._players.append(Player(self.blue_player))
         self._player_setting = SetPlayer()
@@ -24,11 +26,6 @@ class Santorini:
         self._turn_count = 1
 
         self._curr_player = self._players[self._white_player_index] # start with white
-
-        # only necessary depending on which setting it is on
-        if self._undo_setting_enabled == "on"
-            self._move_history
-            self._move_history_strings = []
 
 
     def _set_curr_player(self):
@@ -42,10 +39,22 @@ class Santorini:
     def track_turns(self, curr_player):
         # get the current player, return next turn
         # array of array of turns
-        if current_player._get_type == "white"
-            
-            string = f'Next Turn: {}'
+        if curr_player._get_type == "white":
+            string1 = "Turn: ", self._turn_count, "white (AB)"
+            self._set_curr_player()
+        else:
+            string2 = "Turn: ", self._turn_count, "blue (YZ)"
+            self._set_curr_player()
+        self._turn_count += 1
+        self.history_turns(curr_player, self._turn_count)
 
+    #todo: turns w the scores 
+
+    def history_turns(self, curr_player, turn):
+        self._make_moves
+
+    def history_turns(self, curr_player, turn):
+        self._make_moves 
 
     # ONLY a human
     def make_moves(self): #make Moves() object
@@ -72,8 +81,7 @@ class Santorini:
         print(move_string)
         print(self._board)
 
-        # check if the player has won
- 
+        # check if the player has won 
 
 def 
 
