@@ -50,6 +50,10 @@ class Santorini:
             self._set_next_player()
         self._turn_count += 1
         self.history_turns(curr_player, self._turn_count)
+        if curr_player._get_type == "white":
+            return string2
+        else:
+            return string1
 
     #todo: turns w the scores 
 
@@ -77,13 +81,14 @@ class Santorini:
 
         move = MakeMoves(selected_worker, move_direction, build_direction)
         move.make_moves(self._board)
-        move_string = f'{worker}, {m_dir}, {b_dir}'
+        move_string = f'{selected_worker}, {move_direction}, {build_direction}'
 
         self._move_history_strings.append(move_string)
         self._move_history.append(move)
-
+        string_turns = self.track_turns()
         print(move_string)
         print(self._board)
+        print(string_turns)
 
         # check if the player has won 
 
