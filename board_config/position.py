@@ -5,7 +5,7 @@ class Positions:
     def __init__(self, row, column):
         self._row = row
         self._column = column
-        self._height = height
+        self._height = 0 # start at zero
 
     # private variables
     def _get_row(self):
@@ -25,10 +25,9 @@ class Positions:
     # format self string
     def __str__(self):
       return '(' + str(self._row) + ',' + str(self._column) + ') h:' + str(self._height)
-   
-   # checking if the position is already occupied
-   def check_occupatied(self, position):
-    if self.column == position.column and self.row == position.row:
-         return True
-    else:
-        return False
+    # checking if the position is already occupied
+    def check_occupatied(self, position):
+        if self.column == position.column and self.row == position.row:
+            return True
+        else:
+            return False
