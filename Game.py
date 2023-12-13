@@ -28,9 +28,19 @@ class Santorini:
     def track_turns(self, curr_player):
         # get the current player, return next turn
         # array of array of turns
-        if current_player._get_type == "white"
-            
-            string = f'Next Turn: {}'
+        turn = 1
+        if curr_player._get_type == "white":
+            string1 = "Turn: ", turn, "white (AB)"
+            turn += 1
+            self._switch_player
+        else:
+            string2 = "Turn: ", turn, "blue (YZ)"
+            turn += 1
+            # string = f'Next Turn: {}'
+
+    #todo: turns w the scores 
+
+    # def history_turns(self, curr_player, turn):
 
         
         
