@@ -23,6 +23,15 @@ class Santorini:
         self._players[self._blue_player_index] = self._player_settings.set_type_player(self._blue, self._blue_player_index, self._board)
         self._turn_count = 0
 
+        self._curr_player = self._players[self._white_player_index] # start with white
+
+
+    def _set_curr_player(self):
+        if self._curr_player._type == "white":
+            self._curr_player = self._players[self._blue_player_index]
+        elif self._curr_player._type == "blue":
+            self._curr_player = self._players[self._white_player_index]
+
 
     # TODO - idk how to do this tbh
     def track_turns(self, curr_player):
@@ -32,12 +41,17 @@ class Santorini:
             
             string = f'Next Turn: {}'
 
-        
-        
 
-    def _switch_player(self):
-        curr_player = self._players[self._curr_player_index]
+    def _switch_player(self, curr_player):
+        # curr_player = self._players[self._curr_player_index]
         next_player = self._players[1 - self._curr_player_index]
         return next_player
 
     def execute_move(self):
+        curr_player = self._players[self._curr_player_index]
+        next_player = self._switch_player(curr_player)
+
+        # check if the player has won
+ 
+
+
