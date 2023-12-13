@@ -19,7 +19,7 @@ class HumanPlayer(Player):
         # check if valid worker
         # check if the worker selected is theirs, 
         # check if there are available moves + build for that worker - build!!!
-        selected_worker = input("Select a worker to move (A, B, Y, Z): ").
+        selected_worker = input("Select a worker to move (A, B, Y, Z): ")
         if selected_worker not in self._valid_workers:
             print("Not a valid worker")
         elif selected_worker not in opponent.workers:

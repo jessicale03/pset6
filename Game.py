@@ -9,20 +9,23 @@ class Santorini:
     Singleton design pattern since we are creating one instance of the game that isopen
     to reference
     """
-    def __init__(self):
+    def __init__(self, white_type, blue_type):
         self._board = Board()
+        # pass in the type of player (human, heursitics, random)
+        self._white_type = white_type
+        self._blue_type = blue_type
         self._white = "white"
         self._blue = "blue"
         self._white_player_index = 0
         self._blue_player_index = 1
-        self._players = [Player(None, None)] # an array of type Player
+        self._players = [Player(None, None) for _ in range(2)] # an array of type Player
         # self._players.append(Player(self.white_player))
         # self._players.append(Player(self.blue_player))
         self._player_setting = SetPlayer()
         # set player type using the manager
-        self._players[self._white_player_index] = self._player_settings.set_type_player(self._white, self._white_player_index, self._board)
+        self._players[self._white_player_index] = self._player_setting.set_type_player(self._white, self._white_type, self._board)
 
-        self._players[self._blue_player_index] = self._player_settings.set_type_player(self._blue, self._blue_player_index, self._board)
+        self._players[self._blue_player_index] = self._player_setting.set_type_player(self._blue, self._blue_type, self._board)
         self._turn_count = 1
 
         self._curr_player = self._players[self._white_player_index] # start with white
@@ -83,6 +86,5 @@ class Santorini:
 
         # check if the player has won 
 
-def 
 
 

@@ -1,8 +1,22 @@
-from .Game import Santorini
+from Game import Santorini
+import sys
 
 def main():
-    rows, cols = 5, 5
-    board = Board(rows, cols)
+    argv_params = [['human', 'heuristic', 'random'], ['human', 'heuristic', 'random'], ['on', 'off'], ['on', 'off']]
+
+    parameters = ['human', 'human', 'off', 'off']
+
+    for i in range(1, len(sys.argv)):
+        if (sys.argv[i] not in argv_params[i-1]):
+           sys.exit('Invalid command line argument: ' + sys.argv[i])
+
+        parameters[i-1] = sys.argv[i]
+
+    white_type = parameters[0]
+    blue_type = parameters[1]
+
+    game = Santorini(white_type, blue_type)
+    print(game._board)
 
     # turn = 1
     # current_player = 'A'

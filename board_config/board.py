@@ -10,8 +10,8 @@ class Cell:
         self.worker = None
 
 class Board:
-    def __init__(self, rows, cols):
-        self.cells = [[Cell() for _ in range(cols)] for _ in range(rows)]
+    def __init__(self):
+        self.cells = [[Cell() for _ in range(5)] for _ in range(5)]
         # self.initialize()
         self._positions = BoardPosition()
 
@@ -64,7 +64,8 @@ class Board:
         # return None, None
 
     def is_valid_move(self, worker):
-        return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column     < 5:
+        return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column < 5 
+        # TODO: also needs to check if other worker is not there
 
     
        
@@ -75,7 +76,7 @@ class Board:
     # def valid_move(self, worker, direction, row):
         # check if the move is within the row and column limits
 
-    def valid_moveable_workers(self)
+    # def valid_moveable_workers(self)
     
     def move(self, worker, direction):
       """
@@ -119,7 +120,6 @@ class Board:
         for direction in self._valid_directions.keys():
             if self.is_valid_move(worker, direction):
                 # self._workers[worker] = self._positions.pos[self._workers[worker].r + self._valid_directions[m_dir][0]][self._workers[worker].c + self._valid_directions[m_dir][1]]
-           
                 # # self._positions.iter_center(self._workers[worker].row, self._workers[worker].column)
 
                 # if the position to build in is free, try building
@@ -128,4 +128,3 @@ class Board:
                         # self._workers[worker] = self._positions.pos[self._workers[worker].r - self._direction_dict[m_dir][0]][self._workers[worker].c - self._valid_directions[mo_dir][1]]
                         can_build = True
         return can_build
-                  
