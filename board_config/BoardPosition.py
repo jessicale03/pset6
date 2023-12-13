@@ -1,4 +1,4 @@
-from .position import Positions
+from .Position import Positions
 
 class BoardPosition:
     """

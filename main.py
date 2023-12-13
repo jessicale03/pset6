@@ -1,5 +1,5 @@
 from board_config.Board import Board, Worker, Cell
-from board_moves.move import Move
+from board_moves.Move import Move
 
 def get_player_move(board, current_player):
     valid_workers = {'A', 'B', 'Y', 'Z'}

@@ -74,14 +74,17 @@ class Board:
       """
       Moves the specified worker
       """
-      self._workers[worker] = self._positions.pos[self._workers[worker].r + self._valid_directions[direction][0]][self._workers[worker].c + self._valid_directions[direction][1]]
+      self._workers[worker] = self._positions.pos[self._workers[worker].row + self._valid_directions[direction][0]][self._workers[worker].column + self._valid_directions[direction][1]]
 
 
     def build(self, worker, direction):
-        self._positions.pos_arr[self._workers[worker_name].r + self._direction_dict[direction][0]][self._workers[worker_name].c + self._direction_dict[direction][1]].h += 1
+        self._positions.pos_arr[self._workers[worker].row + self._direction_dict[direction][0]][self._workers[worker].column + self._direction_dict[direction][1]].height += 1
    
     def undo_build():
         pass
+
+    def get_height(self, name):
+        return self._workers[name].height
 
 
 
