@@ -1,17 +1,20 @@
 class Player:
+    """
+    abstract class for human, AI, and random player to inherit from
+    """
     def __init__(self, curr_player, board):
         self._board = board
         self._curr_player = curr_player
         if (self._curr_player == 0):
             self._workers = ['A', 'B']
-            self._color = 'white'
+            self._type = 'white'
         else:
             self._color = 'blue'
             self._workers = ['Y', 'Z']
 
     
-    def _get_colors(self):
-        return self._color
+    def _get_type(self):
+        return self._type
     
     def _get_workers(self):
         return self._workers
