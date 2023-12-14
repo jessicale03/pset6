@@ -1,3 +1,5 @@
+import sys
+
 class MakeMoves():
     """ Move class that executes a move """
     def __init__(self, worker, move_direction, build_direction):
@@ -21,6 +23,22 @@ class MakeMoves():
         board.move(self._worker, self._m_dir)
         print("build directions: ", self._b_dir)
         board.build(self._worker, self._b_dir)
+        if board.has_won(self._worker) == True:
+            if self._worker == "A" or self._worker == "B":
+                print(f'white has won')
+            else:
+                print(f'blue has won')
+            replay = input("Play again?")   
+            if replay == "no":
+                sys.exit()
+
+            
+
+        # if board.build(self._worker, self._b_dir) == True:
+        #     print(f'{self._worker._get_type()} has won')
+        #     replay = input("Play again?")
+        #     if replay == "no":
+        #         exit
         print("hello")
         # if not self._b_dir == None:
         #     board.build(self._worker, self._b_dir)

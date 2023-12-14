@@ -199,12 +199,26 @@ class Board:
     def undo_move():
         pass
 
-    def get_height(self, worker):
-        return self._workers[worker].height
+    # def get_height(self, worker):
+        # return self._workers[worker].height
+        # return self._workers[worker]._get_height()
+        return self._positions.pos[row][column]._get_height()
 
+    def get_height(self, worker):
+        row = self._workers[worker].row #+ self._valid_directions[direction][0]
+        column = self._workers[worker].column #+ self._valid_directions[direction][1]
+        return self._positions.pos[row][column]._get_height()
     # def build(self, worker, direction):
         # self.cells[row][col].building_level += 1
         # # # self._positions.pos[self._workers[worker].row + self._valid_directions[direction][0]][self._workers[worker].column+ self._valid_directions[direction][1]].height += 1
+    
+    def has_won(self, worker):
+        row = self._workers[worker].row 
+        column = self._workers[worker].column 
+        height = self._positions.pos[row][column]._get_height()
+        if height == 3:
+            return True
+        
     def build(self, worker, direction):
         print("directions: ", direction)
         row = self._workers[worker].row + self._valid_directions[direction][0]
@@ -213,6 +227,12 @@ class Board:
         # Check if the position is within bounds
         if 0 <= row < 5 and 0 <= column < 5:
             self._positions.pos[row][column]._set_height(1)
+            self._workers[worker]._set_height(1)
+
+            # if self._positions.pos[row][column]._get_height() == 3:
+            #     return True
+
+            # print(f'build function height: {self._positions.pos[row][column]._get_height()}')
             # print(self._positions.pos[row][column].height)
         else:
             # Handle the case where the position is out of bounds
