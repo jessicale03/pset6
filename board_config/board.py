@@ -1,5 +1,6 @@
 from .BoardPosition import BoardPosition
 from .Position import Positions
+from player.Player import Player
 
 class Worker:
     def __init__(self, symbol):
@@ -15,6 +16,7 @@ class Board:
         self.cells = [[Cell() for _ in range(5)] for _ in range(5)]
         # self.initialize()
         self._positions = BoardPosition()
+        self.center_values = {(2, 2): 2, (1, 1): 1, (1, 2): 1, (1, 3): 1, (2, 1): 1, (2, 3): 1, (3, 1): 1, (3, 2): 1, (3, 3): 1}
 
         self._worker_names = [['A', 'B'], ['Y', 'Z']]
         # self._workers = {}
@@ -171,9 +173,26 @@ class Board:
             # Update the board cells
             self.cells[curr_row][curr_col].worker = None  # Remove worker from current cell
             self.cells[new_row][new_col].worker = worker  # Place worker in new cell
+            # position_rn = self.cells[new_row][new_col]
+            # position_rn = self._positions.pos[new_row][new_col]
+            # worker2 = "A"
+            # position_other = self._positions.pos[0]
+            # position_rn = self._workers[worker]
+            # position_other = self._workers["A"]
+            # row, col, height = self.parse_position_string(position_rn)
+            # print ("current position of", worker, "worker: ", position_rn.row)
+            # print ("current position of", worker2, "worker: ", position_other)
         else:
             print("Invalid move. Outside of board boundaries.")
+    def parse_position_string(self, position_str):
+        # Extract the numerical parts of the string
+        parts = position_str.strip("()").split(" ")
+        row_col = parts[0].split(",")
+        row = int(row_col[0])
+        col = int(row_col[1])
+        height = int(parts[1].split(":")[1])
 
+        return row, col, height
     # def build(self, worker, direction):
     #     self._positions.pos_arr[self._workers[worker].row + self._direction_dict[direction][0]][self._workers[worker].column + self._direction_dict[direction][1]].height += 1
     # def build(self, worker, direction):
@@ -218,9 +237,23 @@ class Board:
         height = self._positions.pos[row][column]._get_height()
         if height == 3:
             return True
-        
+    def calculate_height_score(self, position1, position2):
+        first = self.cells[position1.row][position1.column].building_level
+        second = self.cells[position2.row][position2.column].building_level
+        third = first + second
+        print("HIEHGT SCORE:", third)
+    
+    def calculate_center_score(self, position1, position2):
+        first = self.center_values.get((position1.row, position1.column), 0)
+        second = self.center_values.get((position2.row, position2.column), 0)
+        third = first + second
+        print("CENTER SCORE: ", third)
+        # return sum(self.center_values.get((pos.row, pos.column), 0) for pos in positions)
+
+        # return sum(self.cells[pos.row][pos.column].building_level for pos in positions)
     def build(self, worker, direction):
-        print("directions: ", direction)
+        # print("directions: ", direction)
+        # print("This is cur worker: ", worker)
         row = self._workers[worker].row + self._valid_directions[direction][0]
         column = self._workers[worker].column + self._valid_directions[direction][1]
 
@@ -228,12 +261,31 @@ class Board:
         if 0 <= row < 5 and 0 <= column < 5:
             self._positions.pos[row][column]._set_height(1)
             self._workers[worker]._set_height(1)
-
+            # current_positions = layer.get_worker_positions()
+            # print("current pos: ", current_positions)
             # if self._positions.pos[row][column]._get_height() == 3:
             #     return True
 
             # print(f'build function height: {self._positions.pos[row][column]._get_height()}')
             # print(self._positions.pos[row][column].height)
+            position1 = self._workers["A"]
+            position2 = self._workers["B"]
+            position3 = self._workers["Y"]
+            position4 = self._workers["Z"]
+            if worker == "A" or worker == "B":
+                # position1 = self._workers["A"]
+                # position2 = self._workers["B"]
+                self.calculate_height_score(position1, position2)
+                self.calculate_center_score(position1, position2)
+                self.calculate_distance_score(position1, position2, position3, position4)
+                # print(position1, position2)
+            elif worker == "Y" or worker == "Z":
+                # position1 = self._workers["Y"]
+                # position2 = self._workers["Z"]
+                self.calculate_height_score(position3, position4)
+                self.calculate_center_score(position3, position4)
+                self.calculate_distance_score(position3, position4, position1, position2)
+                # print(position1, position2)
         else:
             # Handle the case where the position is out of bounds
             print("Cannot build in the specified direction, position is out of bounds.")
@@ -269,3 +321,27 @@ class Board:
                         # self._workers[worker] = self._positions.pos[self._workers[worker].r - self._direction_dict[m_dir][0]][self._workers[worker].c - self._valid_directions[mo_dir][1]]
                         can_build = True
         return can_build
+
+# curr_pos = self._workers[worker]
+
+
+
+
+    def calculate_distance_score(self, player_pos1, player_pos2, opp_pos1, opp_pos2):
+        # Calculate minimum distance for each player worker to any opponent worker
+        min_distance_player_pos1 = min(
+            self.manhattan_distance(player_pos1, opp_pos1),
+            self.manhattan_distance(player_pos1, opp_pos2)
+        )
+        min_distance_player_pos2 = min(
+            self.manhattan_distance(player_pos2, opp_pos1),
+            self.manhattan_distance(player_pos2, opp_pos2)
+        )
+
+        # The distance score is 8 minus the sum of these minimum distances
+        distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
+        print("DISTANCE SCORE: ", distance_score)
+        return distance_score
+
+    def manhattan_distance(self, pos1, pos2):
+        return abs(pos1.row - pos2.row) + abs(pos1.column - pos2.column)

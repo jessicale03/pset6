@@ -69,6 +69,13 @@ class Player:
                 playable_moves.append(direction)
         return playable_moves
 
+    def get_worker_positions(self):
+        positions = []
+        for worker_id in self._workers:
+            worker_pos = self._board._workers[worker_id]
+            positions.append(worker_pos)
+        return positions
+    
     # def buildable_directions(self, worker):
         # buildable_directions = []
         # for direction in self._valid_directions:
