@@ -27,19 +27,25 @@ class Player:
     def _get_curr_player(self):
         return self._curr_player
     
+    def _has_won(self, move):
+        print("WE INSIDE HAS_WON")
+        for name in self._workers:
+            # height_again = self._board.get_height2(name, move)
+            height_again = self._board.get_height(name)
+            print("height rn of", name, ": ", height_again)
+            if height_again == 3:
+                return True
+            elif len(self.useable_workers()) == 0:
+                return True
+            return False 
     # def _has_won(self):
     #     for name in self._workers:
-    #         if self._board.get_height(name) == 3:
-    #             return True
-    #         elif len(self.useable_workers()) == 0:
-    #             return True
-    #         return False 
-    # def _has_won(self):
-    #     for name in self._workers:
+    #         if name == 'A' or name == 'B':
     #         # Get the worker's current position
-    #         print(name)
-    #         worker_pos = self._workers[name]
-
+    #             print(name)
+    #             worker_pos = self._board._workers[0]
+    #         else:
+    #             worker_pos = self._workers[1]
     #         # Check if the worker is standing on a level 3 building
     #         if self._board.cells[worker_pos.row][worker_pos.column].building_level == 3:
     #             return True

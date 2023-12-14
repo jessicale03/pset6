@@ -83,14 +83,20 @@ class Santorini:
         self.track_turns()
         opponent = self._players[1 - self._curr_player._curr_player_index] 
 
-        if curr_player._has_won():
-            print(curr_player._type + " has won")
+        # selected_worker2 = curr_player.get_worker(opponent)
+        # move_direction2 = curr_player.get_move_direction(selected_worker2)
+
+        # if opponent._has_won(move_direction2):
+        #     print(opponent._type + " has won")
 
         # run CLI to get inputs if HUMAN PLAYER
         # if self._player_setting == "human":
         selected_worker = curr_player.get_worker(opponent)
         move_direction = curr_player.get_move_direction(selected_worker)
         build_direction = curr_player.get_build_direction(selected_worker, opponent)
+
+        # if opponent._has_won(move_direction):
+        #     print(opponent._type + " has won")
 
 
         move = MakeMoves(selected_worker, move_direction, build_direction)
