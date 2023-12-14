@@ -15,7 +15,7 @@ class RandomPlayer(Player):
 
     # random worker
     def _get_random_worker(self):
-        random_worker = random.choice(self.useable_workers)
+        random_worker = random.choice(self.useable_workers())
         return random_worker
 
     # random move direction - called once worker is set
@@ -24,8 +24,8 @@ class RandomPlayer(Player):
         return random_move
 
     # random build direction
-    def _get_random_build_direction(self, worker_move):
-        random_build = random.choice(self.playable_moves(worker_move))
+    def _get_random_build_direction(self, worker):
+        random_build = random.choice(self.playable_build(worker))
         return random_build
 
     # executable 

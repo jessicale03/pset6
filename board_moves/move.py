@@ -21,7 +21,7 @@ class MakeMoves():
     def make_moves(self, worker, board):
         """Runs the required command"""
         board.move(self._worker, self._m_dir)
-        print("build directions: ", self._b_dir)
+        # print("build directions: ", self._b_dir)
         board.build(self._worker, self._b_dir)
         if board.has_won(self._worker) == True:
             if self._worker == "A" or self._worker == "B":
@@ -39,7 +39,6 @@ class MakeMoves():
         #     replay = input("Play again?")
         #     if replay == "no":
         #         exit
-        print("hello")
         # if not self._b_dir == None:
         #     board.build(self._worker, self._b_dir)
 

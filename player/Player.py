@@ -64,10 +64,20 @@ class Player:
 
     def playable_moves(self, worker):
         playable_moves = []
+        print(worker)
         for direction in self._valid_directions:
+            # str(direction)
             if self._board.is_valid_direction(worker, direction):
                 playable_moves.append(direction)
         return playable_moves
+
+    def playable_build(self, worker):
+        playable_build = []
+        for direction in self._valid_directions:
+            print(f'playable_build {direction}')
+            if self._board.is_valid_direction(worker, direction):
+                playable_build.append(direction)
+        return playable_build
 
     # def buildable_directions(self, worker):
         # buildable_directions = []

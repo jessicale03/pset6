@@ -104,8 +104,11 @@ class Santorini:
             
         if curr_player.type == "random":
             random_worker = curr_player._get_random_worker()
-            random_move = _get_random_move_direction(random_worker)
-            random_build = _get_random_build_direction(random_move)
+            print(f'random worker {random_worker}')
+            random_move = curr_player._get_random_move_direction(random_worker)
+            print(f'random move {random_move}')
+            random_build = curr_player._get_random_build_direction(random_worker)
+            print(f'random build {random_build}')
 
             move = MakeMoves(random_worker, random_move, random_build)
             move.make_moves(random_worker, self._board)

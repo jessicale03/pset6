@@ -7,3 +7,5 @@ class HeuristicPlayer(Player):
     """
     def __init__(self, curr_player, board):
         super().__init__(curr_player, board)
+
+    
