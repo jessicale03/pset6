@@ -16,6 +16,9 @@ class Positions:
 
     def _get_height(self):
         return self._height
+
+    def _set_height(self, value):
+        self._height = value
     
     # assignment properities
     row = property(fget=_get_row, doc='row number')

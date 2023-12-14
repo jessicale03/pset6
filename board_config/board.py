@@ -63,11 +63,22 @@ class Board:
                     # return row, col
         # return None, None
 
-    def is_valid_move(self, worker):
+    def is_valid_pos(self, worker):
         return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column < 5 
         # TODO: also needs to check if other worker is not there
 
-    
+    def is_valid_direction(self, worker, direction):
+        x = self._workers[worker].row + self._valid_directions[direction][0]
+        y = self._workers[worker].column + self._valid_directions[direction][1]
+        if x < 0 or x >= 5 or y < 0 or y >= 5:
+            return False
+        elif not self.empty_cell(self._positions.pos[x][y]):
+            return False
+        else:
+            return True
+
+    # def is_valid_build_direction(self, worker, direction):
+
        
     # def move_worker(self, from_row, from_col, to_row, to_col):
         # # self.cells[to_row][to_col].worker = self.cells[from_row][from_col].worker
@@ -97,9 +108,24 @@ class Board:
     def get_height(self, worker):
         return self._workers[worker].height
 
-    def build(self, row, col):
-        self.cells[row][col].building_level += 1
+    # def build(self, worker, direction):
+        # self.cells[row][col].building_level += 1
+        # # # self._positions.pos[self._workers[worker].row + self._valid_directions[direction][0]][self._workers[worker].column+ self._valid_directions[direction][1]].height += 1
+    def build(self, worker, direction):
+        row = self._workers[worker].row + self._valid_directions[direction][0]
+        column = self._workers[worker].column + self._valid_directions[direction][1]
 
+        # Check if the position is within bounds
+        if 0 <= row < 5 and 0 <= column < 5:
+            self._positions.pos[row][column]._set_height(1)
+            # print(self._positions.pos[row][column].height)
+        else:
+            # Handle the case where the position is out of bounds
+            print("Cannot build in the specified direction, position is out of bounds.")
+
+   
+#    def undo_build_from_worker(self, worker_name, direction):
+        # pass
 
     def empty_cell(self, position):
         is_empty = False 
@@ -118,7 +144,7 @@ class Board:
         can_build = False
 
         for direction in self._valid_directions.keys():
-            if self.is_valid_move(worker):
+            if self.is_valid_direction(worker, direction):
                 # self._workers[worker] = self._positions.pos[self._workers[worker].r + self._valid_directions[m_dir][0]][self._workers[worker].c + self._valid_directions[m_dir][1]]
                 # # self._positions.iter_center(self._workers[worker].row, self._workers[worker].column)
 

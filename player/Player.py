@@ -4,18 +4,23 @@ class Player:
     """
     def __init__(self, curr_player_index, board):
         self._board = board
-        self._curr_player_index = curr_player_index # 0 or 1
+        self._curr_player_index = 0 # 0 or 1
         if (self._curr_player_index == 0):
             self._workers = ['A', 'B']
             self._type = 'white'
         else:
-            self._color = 'blue'
+            self._type = 'blue'
             self._workers = ['Y', 'Z']
+
+        # TODO: setter for curr_plauer???
 
     
     def _get_type(self):
         return self._type
-    
+
+    def _set_type(self, index):
+        self._curr_player_index = index
+
     def _get_workers(self):
         return self._workers
     

@@ -32,41 +32,45 @@ class Santorini:
 
 
     def _set_next_player(self):
-        if self._curr_player._type == "white":
+        if self._curr_player._get_type() == "white":
+            print("we made it!!!")
             self._curr_player = self._players[self._blue_player_index]
-        elif self._curr_player._type == "blue":
-            self._curr_player = self._players[self._white_player_index]
+            self._curr_player = self._players[1]
+            print(self._players[1].curr_player)
+        elif self._curr_player._get_type() == "blue":
+            self._curr_player = self._players[1 - self._white_player_index]
+            self._curr_player = self._players[0]
+            # self._curr_player._set_type(0)
 
 
     # TODO - idk how to do this tbh
-    def track_turns(self, curr_player):
+    def track_turns(self):
+        # print()
         # get the current player, return next turn
         # array of array of turns
-        if curr_player._get_type == "white":
-            string1 = "Turn: ", self._turn_count, "white (AB)"
+        print("befpre set fxn", self._curr_player._get_type())
+        if self._curr_player._get_type() == "white":
+            
+            print(f'Turn: {self._turn_count}, white (AB)')
             self._set_next_player()
-        else:
-            string2 = "Turn: ", self._turn_count, "blue (YZ)"
+        elif self._curr_player._get_type() == "blue":
             self._set_next_player()
+            print(f'Turn: {self._turn_count}, blue (YZ)')
         self._turn_count += 1
-        self.history_turns(curr_player, self._turn_count)
-        if curr_player._get_type == "white":
-            return string2
-        else:
-            return string1
-
-    #todo: turns w the scores 
+        self.history_turns(self._curr_player, self._turn_count)
 
     def history_turns(self, curr_player, turn):
-        self._make_moves
+        # self.make_moves
+        pass
 
     def history_turns(self, curr_player, turn):
-        self._make_moves 
+        # self.make_moves 
+        pass
 
     # ONLY a human
     def make_moves(self): #make Moves() object
-
         curr_player = self._curr_player
+        self.track_turns()
         opponent = self._players[1 - self._curr_player.curr_player_index] 
 
         if opponent._has_won():
@@ -80,15 +84,15 @@ class Santorini:
 
 
         move = MakeMoves(selected_worker, move_direction, build_direction)
-        move.make_moves(self._board)
+        move.make_moves(selected_worker, self._board)
         move_string = f'{selected_worker}, {move_direction}, {build_direction}'
 
-        self._move_history_strings.append(move_string)
-        self._move_history.append(move)
-        string_turns = self.track_turns()
+        # self._move_history_strings.append(move_string)
+        # self._move_history.append(move)
+        # string_turns = self.track_turns()
         print(move_string)
         print(self._board)
-        print(string_turns)
+        # print(string_turns)
 
         # check if the player has won 
 

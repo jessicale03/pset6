@@ -16,13 +16,13 @@ class MakeMoves():
         }
         self.reverse = {'nw': 'se', 'n': 's', 'ne': 'sw', 'w': 'e', 'e': 'w','sw': 'ne', 's': 'n', 'se': 'nw'}
 
-    def make_moves(self, board):
+    def make_moves(self, worker, board):
         """Runs the required command"""
         board.move(self._worker, self._m_dir)
         if not self._b_dir == None:
             board.build(self._worker, self._b_dir)
 
-       
+        # move_string = f'{worker}, {m_dir}, {b_dir}'
 
         # return move_string
 
