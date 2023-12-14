@@ -1,4 +1,6 @@
 from .HumanPlayer import HumanPlayer
+from .RandomPlayer import RandomPlayer
+from .HeuristicPlayer import HeuristicPlayer
 
 class SetPlayer:
     """

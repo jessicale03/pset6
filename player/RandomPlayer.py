@@ -10,11 +10,12 @@ class RandomPlayer(Player):
     def __init__(self, curr_player, board):
         super().__init__(curr_player, board)
         # self._random_worker = ''
+        self.type = "random"
 
 
     # random worker
     def _get_random_worker(self):
-        random_worker = random.choice(self._useable_workers)
+        random_worker = random.choice(self.useable_workers)
         return random_worker
 
     # random move direction - called once worker is set
@@ -28,7 +29,7 @@ class RandomPlayer(Player):
         return random_build
 
     # executable 
-    def random_player_choice(self):
+    def random_player_choice_str(self):
         random_worker = self._get_random_worker()
         random_move = self._get_random_move_direction(random_worker)
         random_build = self._get_random_build_direction(random_move)
