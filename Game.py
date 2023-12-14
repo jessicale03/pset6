@@ -59,6 +59,7 @@ class Santorini:
         # get the current player, return next turn
         # array of array of turns
         # print("befpre set fxn", self._curr_player._get_type())
+        
         if self._curr_player._get_type() == "white":
             
             print(f'Turn: {self._turn_count}, white (AB)')
