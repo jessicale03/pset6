@@ -1,4 +1,5 @@
 from .BoardPosition import BoardPosition
+from .Position import Positions
 
 class Worker:
     def __init__(self, symbol):
@@ -16,11 +17,18 @@ class Board:
         self._positions = BoardPosition()
 
         self._worker_names = [['A', 'B'], ['Y', 'Z']]
-        self._workers = {}
-        self._workers['A'] = self._positions.pos[1][3]
-        self._workers['B'] = self._positions.pos[3][1]
-        self._workers['Y'] = self._positions.pos[1][1]
-        self._workers['Z'] = self._positions.pos[3][3]
+        # self._workers = {}
+        # self._workers['A'] = self._positions.pos[1][3]
+        # self._workers['B'] = self._positions.pos[3][1]
+        # self._workers['Y'] = self._positions.pos[1][1]
+        # self._workers['Z'] = self._positions.pos[3][3]
+        #Positions(row, column)
+        self._workers = {
+            'A': Positions(3, 1),  # Starting position for worker 'A'
+            'B': Positions(1, 3),  # Starting position for worker 'B'
+            'Y': Positions(1, 1),
+            'Z': Positions(3, 3)
+        }
 
         self._iter_idex = None
         self._iter_center_x = 0
@@ -67,15 +75,40 @@ class Board:
         return 0 <= self._workers[worker].row < 5 and 0 <= self._workers[worker].column < 5 
         # TODO: also needs to check if other worker is not there
 
+    # def is_valid_direction(self, worker, direction):
+    #     x = self._workers[worker].row + self._valid_directions[direction][0]
+    #     y = self._workers[worker].column + self._valid_directions[direction][1]
+    #     if x < 0 or x >= 5 or y < 0 or y >= 5:
+    #         return False
+    #     elif not self.empty_cell(self._positions.pos[x][y]):
+    #         return False
+    #     else:
+    #         return True
+
     def is_valid_direction(self, worker, direction):
-        x = self._workers[worker].row + self._valid_directions[direction][0]
-        y = self._workers[worker].column + self._valid_directions[direction][1]
-        if x < 0 or x >= 5 or y < 0 or y >= 5:
+        """
+        Checks if moving in the specified direction is valid for the given worker.
+        """
+        # Current position of the worker
+        curr_pos = self._workers[worker]
+        curr_row, curr_col = curr_pos.row, curr_pos.column
+
+        # Calculate the new position
+        new_row = curr_row + self._valid_directions[direction][0]
+        new_col = curr_col + self._valid_directions[direction][1]
+
+        # Check if the new position is within board boundaries
+        if not (0 <= new_row < 5 and 0 <= new_col < 5):
             return False
-        elif not self.empty_cell(self._positions.pos[x][y]):
+
+        # Check if the target cell is empty (no worker present and not at max height)
+        target_cell = self.cells[new_row][new_col]
+        if target_cell.worker is not None or target_cell.building_level == 4:
             return False
-        else:
-            return True
+
+        # Additional game rules can be checked here (e.g., height difference)
+
+        return True
 
     # def is_valid_build_direction(self, worker, direction):
 
@@ -89,15 +122,76 @@ class Board:
 
     # def valid_moveable_workers(self)
     
+    # def move(self, worker, direction):
+    #   """
+    #   Moves the specified worker
+    #   """
+    #   self._workers[worker] = self._positions.pos[self._workers[worker].row + self._valid_directions[direction][0]][self._workers[worker].column + self._valid_directions[direction][1]]
+    # def move(self, worker, direction):
+    #     """
+    #     Moves the specified worker.
+    #     """
+    #     # Current position
+    #     curr_row = self._workers[worker].row
+    #     curr_col = self._workers[worker].column
+    #     # print("current row: ", curr_row, "current col: ", curr_col)
+
+    #     # Calculate new position
+    #     new_row = curr_row + self._valid_directions[direction][0]
+    #     new_col = curr_col + self._valid_directions[direction][1]
+    #     print("new row: ", new_row, "new column: ", new_col)
+
+    #     # Move worker on the board
+    #     worker_move = self._positions.pos[curr_row][curr_col].worker 
+    #     self._positions.pos[new_row][new_col].worker = worker_move
+    #     self._positions.pos[curr_row][curr_col].worker = None  # Remove worker from current cell
+    #     # self._positions.pos[new_row][new_col].worker = worker  # Place worker in new cell
+        
+    #     # Update worker's position in _workers
+    #     self._workers[worker] = self._positions.pos[new_row][new_col]
     def move(self, worker, direction):
-      """
-      Moves the specified worker
-      """
-      self._workers[worker] = self._positions.pos[self._workers[worker].row + self._valid_directions[direction][0]][self._workers[worker].column + self._valid_directions[direction][1]]
+        """
+        Moves the specified worker.
+        """
+        # Current position
+        curr_pos = self._workers[worker]
+        curr_row, curr_col = curr_pos.row, curr_pos.column
 
+        # Calculate new position
+        new_row = curr_row + self._valid_directions[direction][0]
+        new_col = curr_col + self._valid_directions[direction][1]
 
-    def build(self, worker, direction):
-        self._positions.pos_arr[self._workers[worker].row + self._direction_dict[direction][0]][self._workers[worker].column + self._direction_dict[direction][1]].height += 1
+        # Check for valid move within board boundaries
+        if 0 <= new_row < 5 and 0 <= new_col < 5:
+            # Update worker's position in _workers
+            
+            curr_pos.row = new_row
+            curr_pos.column = new_col
+
+            # Update the board cells
+            self.cells[curr_row][curr_col].worker = None  # Remove worker from current cell
+            self.cells[new_row][new_col].worker = worker  # Place worker in new cell
+        else:
+            print("Invalid move. Outside of board boundaries.")
+
+    # def build(self, worker, direction):
+    #     self._positions.pos_arr[self._workers[worker].row + self._direction_dict[direction][0]][self._workers[worker].column + self._direction_dict[direction][1]].height += 1
+    # def build(self, worker, direction):
+    #     """
+    #     Builds on the specified direction from the worker's position.
+    #     """
+    #     # Worker's current position
+    #     print("directions: ", direction)
+    #     curr_row = self._workers[worker].row
+    #     curr_col = self._workers[worker].column
+
+    #     # Calculate building position
+    #     build_row = curr_row + self._valid_directions[direction][0]
+    #     build_col = curr_col + self._valid_directions[direction][1]
+
+    #     # Increment building height
+    #     print("previous height: ", self._positions.pos[build_row][build_col].height)
+    #     self._positions.pos[build_row][build_col].height += 1
    
     def undo_build():
         pass
@@ -112,6 +206,7 @@ class Board:
         # self.cells[row][col].building_level += 1
         # # # self._positions.pos[self._workers[worker].row + self._valid_directions[direction][0]][self._workers[worker].column+ self._valid_directions[direction][1]].height += 1
     def build(self, worker, direction):
+        print("directions: ", direction)
         row = self._workers[worker].row + self._valid_directions[direction][0]
         column = self._workers[worker].column + self._valid_directions[direction][1]
 

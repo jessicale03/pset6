@@ -23,24 +23,34 @@ class Santorini:
         # self._players.append(Player(self.blue_player))
         self._player_setting = SetPlayer()
         # set player type using the manager
-        self._players[self._white_player_index] = self._player_setting.set_type_player(self._white, self._white_type, self._board)
+        # self._players[self._white_player_index] = self._player_setting.set_type_player(self._white, self._white_type, self._board)
 
-        self._players[self._blue_player_index] = self._player_setting.set_type_player(self._blue, self._blue_type, self._board)
+        # self._players[self._blue_player_index] = self._player_setting.set_type_player(self._blue, self._blue_type, self._board)
+        self._players[self._white_player_index] = self._player_setting.set_type_player(self._white_type, self._board, 0)
+        self._players[self._blue_player_index] = self._player_setting.set_type_player(self._blue_type, self._board, 1)
+
         self._turn_count = 1
 
         self._curr_player = self._players[self._white_player_index] # start with white
 
 
-    def _set_next_player(self):
-        if self._curr_player._get_type() == "white":
-            print("we made it!!!")
-            self._curr_player = self._players[self._blue_player_index]
-            self._curr_player = self._players[1]
-            print(self._players[1].curr_player)
-        elif self._curr_player._get_type() == "blue":
-            self._curr_player = self._players[1 - self._white_player_index]
-            self._curr_player = self._players[0]
+    # def _set_next_player(self):
+    #     if self._curr_player._get_type() == "white":
+    #         print("we made it!!!")
+    #         self._curr_player = self._players[self._blue_player_index]
+    #         self._curr_player = self._players[1]
+    #         print(self._players[1].curr_player)
+    #     elif self._curr_player._get_type() == "blue":
+    #         self._curr_player = self._players[1 - self._white_player_index]
+    #         self._curr_player = self._players[0]
             # self._curr_player._set_type(0)
+    def _set_next_player(self):
+        # print("color before: ", self._curr_player._get_type())
+        if self._curr_player._get_type() == "white":
+            self._curr_player = self._players[self._blue_player_index]
+        elif self._curr_player._get_type() == "blue":
+            self._curr_player = self._players[self._white_player_index]
+        # print("color after: ", self._curr_player._get_type())
 
 
     # TODO - idk how to do this tbh
@@ -48,7 +58,7 @@ class Santorini:
         # print()
         # get the current player, return next turn
         # array of array of turns
-        print("befpre set fxn", self._curr_player._get_type())
+        # print("befpre set fxn", self._curr_player._get_type())
         if self._curr_player._get_type() == "white":
             
             print(f'Turn: {self._turn_count}, white (AB)')
@@ -71,10 +81,10 @@ class Santorini:
     def make_moves(self): #make Moves() object
         curr_player = self._curr_player
         self.track_turns()
-        opponent = self._players[1 - self._curr_player.curr_player_index] 
+        opponent = self._players[1 - self._curr_player._curr_player_index] 
 
-        if opponent._has_won():
-            print(opponent._type + " has won")
+        if curr_player._has_won():
+            print(curr_player._type + " has won")
 
         # run CLI to get inputs if HUMAN PLAYER
         # if self._player_setting == "human":
@@ -85,6 +95,8 @@ class Santorini:
 
         move = MakeMoves(selected_worker, move_direction, build_direction)
         move.make_moves(selected_worker, self._board)
+        # self._board.build(selected_worker, build_direction)
+
         move_string = f'{selected_worker}, {move_direction}, {build_direction}'
 
         # self._move_history_strings.append(move_string)

@@ -8,21 +8,38 @@ class Positions:
         self._height = 0 # start at zero
 
     # private variables
-    def _get_row(self):
-        return self._row
+    # def _get_row(self):
+    #     return self._row
 
-    def _get_column(self):
+    # def _get_column(self):
+    #     return self._column
+    
+    @property
+    def row(self):
+        return self._row
+    
+    @row.setter
+    def row(self, value):
+        self._row = value
+
+    @property
+    def column(self):
         return self._column
+    
+    @column.setter
+    def column(self, value):
+        self._column = value
+
 
     def _get_height(self):
         return self._height
 
     def _set_height(self, value):
-        self._height = value
+        self._height += value
     
     # assignment properities
-    row = property(fget=_get_row, doc='row number')
-    column = property(fget=_get_column, doc='column number')
+    # row = property(fget=_get_row, doc='row number')
+    # column = property(fget=_get_column, doc='column number')
     height = property(fget=_get_height, doc='height number')
 
     # format self string

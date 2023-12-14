@@ -6,17 +6,17 @@ class HumanPlayer(Player):
     represent human player interacting from the terminal 
     """
 
-    def __init__(self, curr_player, board):
-        super().__init__(curr_player, board)
+    def __init__(self, curr_player_index, board):
+        super().__init__(curr_player_index, board)
         # self._worker_input = "Select a worker to move (A, B, Y, Z): "
         # # self._move_input = "Select a direction to move (n, ne, e, se, s, sw, w, nw): "
         # self._direction_input = "Select a direction to build (n, ne, e, se, s, sw, w, nw)"
-        self._board = board
-        self.curr_player = curr_player
-        if self.curr_player == "white":
-            self.curr_player_index = 0
-        else:
-            self.curr_player_index = 1
+        # self._board = board
+        # self.curr_player = curr_player
+        # if self.curr_player == "white":
+        #     self.curr_player_index = 0
+        # else:
+        #     self.curr_player_index = 1
         self._valid_workers = {'A', 'B', 'Y', 'Z'}
         self._valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
 
@@ -58,8 +58,9 @@ class HumanPlayer(Player):
             if direction not in self._valid_directions:
                 print("Not a valid direction.")
                 continue  # Continue to the next iteration of the loop
-            elif not self._board.is_valid_direction(worker, direction):
-                print(f"This worker is unable to move to {direction}")
+            # elif not self._board.is_valid_direction(worker, direction):
+            #     print("valid? ", self._board.is_valid_direction(worker, direction))
+            #     print(f"This worker is unable to move to {direction}")
             else:
                 break  # Exit the loop if the right input is provided
         return direction
@@ -73,8 +74,8 @@ class HumanPlayer(Player):
             if build_direction not in self._valid_directions:
                 print("Not a valid direction.")
                 continue  # Continue to the next iteration of the loop
-            elif not self._board.is_valid_direction(worker, build_direction):
-                print(f"This worker is unable to move to {build_direction}")
+            # elif not self._board.is_valid_direction(worker, build_direction):
+            #     print(f"This worker is unable to move to {build_direction}")
             else:
                 break  # Exit the loop if the right input is provided
         return build_direction

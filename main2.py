@@ -73,7 +73,9 @@ class Board:
         return 0 <= row < len(self.cells) and 0 <= col < len(self.cells[0]) and not self.cells[row][col].worker
 
     def move_worker(self, from_row, from_col, to_row, to_col):
+        # print("current row: ", from_row, "current column: ", from_col)
         self.cells[to_row][to_col].worker = self.cells[from_row][from_col].worker
+        print("new row: ", to_row, "new column: ", to_col)
         self.cells[from_row][from_col].worker = None
 
     def build(self, row, col):

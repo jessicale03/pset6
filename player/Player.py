@@ -4,7 +4,7 @@ class Player:
     """
     def __init__(self, curr_player_index, board):
         self._board = board
-        self._curr_player_index = 0 # 0 or 1
+        self._curr_player_index = curr_player_index # 0 or 1
         if (self._curr_player_index == 0):
             self._workers = ['A', 'B']
             self._type = 'white'
@@ -27,13 +27,25 @@ class Player:
     def _get_curr_player(self):
         return self._curr_player
     
-    def _has_won(self):
-        for name in self._workers:
-            if self._board.get_height(name) == 3:
-                return True
-            elif len(self.useable_workers()) == 0:
-                return True
-            return False 
+    # def _has_won(self):
+    #     for name in self._workers:
+    #         if self._board.get_height(name) == 3:
+    #             return True
+    #         elif len(self.useable_workers()) == 0:
+    #             return True
+    #         return False 
+    # def _has_won(self):
+    #     for name in self._workers:
+    #         # Get the worker's current position
+    #         print(name)
+    #         worker_pos = self._workers[name]
+
+    #         # Check if the worker is standing on a level 3 building
+    #         if self._board.cells[worker_pos.row][worker_pos.column].building_level == 3:
+    #             return True
+
+        # If none of the workers are standing on a level 3 building, return False
+        return False
 
     def useable_workers(self):
         # array of workers that still can move
