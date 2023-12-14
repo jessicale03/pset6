@@ -5,6 +5,7 @@ class Player:
     def __init__(self, curr_player_index, board):
         self._board = board
         self._curr_player_index = curr_player_index # 0 or 1
+        self._valid_directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
         if (self._curr_player_index == 0):
             self._workers = ['A', 'B']
             self._type = 'white'
@@ -60,3 +61,18 @@ class Player:
             if self._board.check_valid_move_AND_buid(worker):
                 useable_workers.append(worker)
         return useable_workers
+
+    def playable_moves(self, worker):
+        playable_moves = []
+        for direction in self._valid_directions:
+            if self._board.is_valid_direction(worker, direction):
+                playable_moves.append(direction)
+        return playable_moves
+
+    # def buildable_directions(self, worker):
+        # buildable_directions = []
+        # for direction in self._valid_directions:
+            # if self._board.is_valid_build_direction(worker, direction):
+                # buildable_directions.append(direction)
+        # return buildable_directions
+

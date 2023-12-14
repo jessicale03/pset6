@@ -19,9 +19,9 @@ class HumanPlayer(Player):
         #     self.curr_player_index = 1
         self._valid_workers = {'A', 'B', 'Y', 'Z'}
         self._valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
+        self.type = "human"
 
-
-    def get_worker(self, opponent):
+    def get_worker(self):
         while True:
             selected_worker = input("Select a worker to move\n")
 

@@ -13,3 +13,7 @@ class HeuristicPlayer(Player):
         # self._direction_input = "Select a direction to build (n, ne, e, se, s, sw, w, nw)"
         self._valid_workers = {'A', 'B', 'Y', 'Z'}
         self._valid_directions = {'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'}
+    # represent heuristic player
+    # """
+    # def __init__(self, curr_player, board):
+    #     super().__init__(curr_player, board)

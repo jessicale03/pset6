@@ -90,26 +90,37 @@ class Santorini:
         #     print(opponent._type + " has won")
 
         # run CLI to get inputs if HUMAN PLAYER
-        # if self._player_setting == "human":
-        selected_worker = curr_player.get_worker(opponent)
-        move_direction = curr_player.get_move_direction(selected_worker)
-        build_direction = curr_player.get_build_direction(selected_worker, opponent)
+        # print(curr_player.type)
+        if curr_player.type == "human":
+            selected_worker = curr_player.get_worker()
+            move_direction = curr_player.get_move_direction(selected_worker)
+            build_direction = curr_player.get_build_direction(selected_worker,  opponent)
 
-        # if opponent._has_won(move_direction):
-        #     print(opponent._type + " has won")
+            move = MakeMoves(selected_worker, move_direction, build_direction)
+            move.make_moves(selected_worker, self._board)
+            move_string = f'{selected_worker}, {move_direction}, {build_direction}'
+            print(move_string)
+            print(self._board)
+            
+        if curr_player.type == "random":
+            random_worker = curr_player._get_random_worker()
+            random_move = _get_random_move_direction(random_worker)
+            random_build = _get_random_build_direction(random_move)
 
+            move = MakeMoves(random_worker, random_move, random_build)
+            move.make_moves(random_worker, self._board)
 
-        move = MakeMoves(selected_worker, move_direction, build_direction)
-        move.make_moves(selected_worker, self._board)
+            print(curr_player.random_player_choice_str())
+            print(self._board)
         # self._board.build(selected_worker, build_direction)
 
-        move_string = f'{selected_worker}, {move_direction}, {build_direction}'
+        
 
         # self._move_history_strings.append(move_string)
         # self._move_history.append(move)
         # string_turns = self.track_turns()
-        print(move_string)
-        print(self._board)
+        
+        
         # print(string_turns)
 
         # check if the player has won 
