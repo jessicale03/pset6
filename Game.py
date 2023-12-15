@@ -44,36 +44,42 @@ class Santorini:
         elif self._curr_player._get_type() == "blue":
             self._curr_player = self._players[self._white_player_index]
 
-    def track_turns(self):
+    def switch_turns(self):
+        """
+        switch the turn when called
+        """
         if self._curr_player._get_type() == "white":
-            # if self._turn_count == 0:
-            #     print(f'Turn: 1, white (AB)')
-            # else:
-            print(f'Turn: {self._turn_count}, white (AB)')
             self._set_next_player()
         elif self._curr_player._get_type() == "blue":
-            # if self._turn_count == 0:
-            #     print(f'Turn: 1, blue (YZ)')
-            # else:
-            print(f'Turn: {self._turn_count}, blue (YZ)')
             self._set_next_player()
-        # print()
-        # get the current player, return next turn
-        # array of array of turns
-        # print("befpre set fxn", self._curr_player._get_type())
+        self._turn_count += 1
+    
+    def switch_backwards_turns(self):
+        """
+        switch the turn when called
+        """
+        if self._curr_player._get_type() == "white":
+            self._set_next_player()
+        elif self._curr_player._get_type() == "blue":
+            self._set_next_player()
+        self._turn_count -= 1
+    
+    
+    def display_turns(self):
+        """
+        display the turn
+        """
         blue_height, blue_center, blue_distance = self._board.get_blue_scores()
         white_height, white_center, white_distance = self._board.get_white_scores()
         score_format1 = (blue_height, blue_center, blue_distance)
         score_format2 = (white_height, white_center, white_distance)
-
         if self._curr_player._get_type() == "white":
-            
             print(f'Turn: {self._turn_count}, white (AB)', score_format2)
-            self._set_next_player()
+
         elif self._curr_player._get_type() == "blue":
-            self._set_next_player()
+            
             print(f'Turn: {self._turn_count}, blue (YZ)', score_format1)
-        self._turn_count += 1
+        # self._turn_count += 1
 
     def add_move_history(self, move):
         self._move_history.append(move)
@@ -83,13 +89,16 @@ class Santorini:
     def undo(self, worker):
         # assume alr checked what the undo setting is on
         self._history_index -= 1
-        self._turn_count -= 1
+        # self._turn_count -= 1
         # add the moves 
         self._undo_history.append(self._move_history[self._history_index])
         # self._board = deepcopy(self._move_history[self._history_index - 1]) # recalling what is in the move_history
         self._move_history[self._history_index].oopsies_undo(worker, self._board)
         print(f"Undone to turn {self._history_index - 1}.")
+        self.switch_backwards_turns()
+        # self.display_turns()
         print(self._board)
+        print(self._turn_count)
 
     def redo(self, worker):
         self._history_index += 1
@@ -100,11 +109,8 @@ class Santorini:
 
     def prompt_undo_redo(self, worker):
         command = input("undo, redo, or next\n")
-        # print("history index", self._history_index)
-        # print("turn count", self._turn_count)
         if command == "undo" and self._history_index > 1:
             self.undo(worker) 
-
             return True
 
         elif command == "redo" and self._history_index < self._turn_count:
@@ -119,7 +125,7 @@ class Santorini:
 
     def make_moves(self): #make Moves() object
         curr_player = self._curr_player
-        self.track_turns()
+        self.display_turns()
         if self._undo_redo_setting == 'on':
             if self.prompt_undo_redo(curr_player) == True:
                 exit
@@ -135,6 +141,7 @@ class Santorini:
 
                     move_string = f'{selected_worker}, {move_direction}, {build_direction}'
                     print(move_string)
+                    self.switch_turns()
                     # self.add_move_history(move_string)
                     self.add_move_history(move)
                     print(self._board)
@@ -149,6 +156,7 @@ class Santorini:
                     move.make_moves(random_worker, self._board)
                     move_string = f'{random_worker}, {random_move},{random_build}'
                     print(move_string)
+                    self.switch_turns()
                     print(self._board)
 
 

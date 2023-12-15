@@ -167,7 +167,8 @@ class Board:
    
     def undo_build(self, worker, direction):
         row = self._workers[worker].row + self._valid_directions[direction][0]
-        column = self._workers[worker].column + self._valid_directions[direction][-1]
+        col = self._workers[worker].column + self._valid_directions[direction][-1]
+        self._positions.pos[row][col]._set_height(-1)
 
     def get_height(self, worker):
         row = self._workers[worker].row #+ self._valid_directions[direction][0]
