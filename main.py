@@ -14,8 +14,10 @@ def main():
 
     white_type = parameters[0]
     blue_type = parameters[1]
+    undo_redo = parameters[2]
+    score = parameters[3]
 
-    game = Santorini(white_type, blue_type)
+    game = Santorini(white_type, blue_type, undo_redo, score)
     print(game._board)
 
     while True:

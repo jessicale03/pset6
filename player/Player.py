@@ -71,12 +71,15 @@ class Player:
                 playable_moves.append(direction)
         return playable_moves
 
-    def playable_build(self, worker):
+    def playable_build(self, worker, random_move):
+        playable_moves = self.playable_moves(worker) # has valid moves
         playable_build = []
-        for direction in self._valid_directions:
-            print(f'playable_build {direction}')
-            if self._board.is_valid_direction(worker, direction):
+        for direction in playable_moves:
+            # print(f'playable_build worker {worker}')
+            if self._board.is_valid_build_direction(worker, random_move, direction):
+                # print(f'playable_build direction array {playable_build}')
                 playable_build.append(direction)
+        # print(f'playable_build direction array {playable_build}')
         return playable_build
 
     # def buildable_directions(self, worker):

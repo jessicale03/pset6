@@ -32,7 +32,15 @@ class MakeMoves():
             if replay == "no":
                 sys.exit()
 
-            
+    def oopsies_undo(self, worker, board):
+        reverse_reverse = {'nw': 'se', 'n': 's', 'ne': 'sw', 'w': 'e', 'e': 'w','sw': 'ne', 's': 'n', 'se': 'nw'}
+        if self._b_dir:
+            board.undo_build(self._worker, self._b_dir)
+
+        # make a move in the opposite direction
+        board.move(self._worker, reverse_reverse[self._b_dir])
+        
+
 
         # if board.build(self._worker, self._b_dir) == True:
         #     print(f'{self._worker._get_type()} has won')
