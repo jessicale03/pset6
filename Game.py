@@ -59,14 +59,18 @@ class Santorini:
         # get the current player, return next turn
         # array of array of turns
         # print("befpre set fxn", self._curr_player._get_type())
-        
+        blue_height, blue_center, blue_distance = self._board.get_blue_scores()
+        white_height, white_center, white_distance = self._board.get_white_scores()
+        score_format1 = (blue_height, blue_center, blue_distance)
+        score_format2 = (white_height, white_center, white_distance)
+
         if self._curr_player._get_type() == "white":
             
-            print(f'Turn: {self._turn_count}, white (AB)')
+            print(f'Turn: {self._turn_count}, white (AB)', score_format2)
             self._set_next_player()
         elif self._curr_player._get_type() == "blue":
             self._set_next_player()
-            print(f'Turn: {self._turn_count}, blue (YZ)')
+            print(f'Turn: {self._turn_count}, blue (YZ)', score_format1)
         self._turn_count += 1
         self.history_turns(self._curr_player, self._turn_count)
 
