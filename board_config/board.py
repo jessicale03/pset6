@@ -17,7 +17,12 @@ class Board:
         # self.initialize()
         self._positions = BoardPosition()
         self.center_values = {(2, 2): 2, (1, 1): 1, (1, 2): 1, (1, 3): 1, (2, 1): 1, (2, 3): 1, (3, 1): 1, (3, 2): 1, (3, 3): 1}
-
+        self.white_height = 0
+        self.blue_height = 0
+        self.white_center = 0
+        self.blue_center = 0
+        self.white_distance = 0
+        self.blue_distance = 0
         self._worker_names = [['A', 'B'], ['Y', 'Z']]
         # self._workers = {}
         # self._workers['A'] = self._positions.pos[1][3]
@@ -141,15 +146,6 @@ class Board:
             # print ("current position of", worker2, "worker: ", position_other)
         else:
             print("Invalid move. Outside of board boundaries.")
-    def parse_position_string(self, position_str):
-        # Extract the numerical parts of the string
-        parts = position_str.strip("()").split(" ")
-        row_col = parts[0].split(",")
-        row = int(row_col[0])
-        col = int(row_col[1])
-        height = int(parts[1].split(":")[1])
-
-        return row, col, height
     # def build(self, worker, direction):
     #     self._positions.pos_arr[self._workers[worker].row + self._direction_dict[direction][0]][self._workers[worker].column + self._direction_dict[direction][1]].height += 1
     # def build(self, worker, direction):
@@ -188,18 +184,34 @@ class Board:
         height = self._positions.pos[row][column]._get_height()
         if height == 3:
             return True
-        
-    def calculate_height_score(self, position1, position2):
-        first = self.cells[position1.row][position1.column].building_level
-        second = self.cells[position2.row][position2.column].building_level
-        third = first + second
-        print("HIEHGT SCORE:", third)
+
+    def calculate_height_score(self, position1, position2, work_type):
+        cell = self._positions.pos[position1.row][position1.column]
+        # print("cur cell height 1: ", cell.height)
+        cell2 = self._positions.pos[position2.row][position2.column]
+        # print("cur cell height 2: ", cell2.height)
+        height_total = cell.height + cell2.height
+        if work_type == "white":
+            self.white_height = height_total
+        else:
+            self.blue_height = height_total
+        # first = self.cells[position1.row][position1.column].building_level
+        # print("pos1 cur height: ", first)
+        # second = self.cells[position2.row][position2.column].building_level
+        # print("pos2 cur height: ", second)
+        # third = first + second
+        # print("HIEHGT SCORE:", height_total)
     
-    def calculate_center_score(self, position1, position2):
+    def calculate_center_score(self, position1, position2, work_type):
+
         first = self.center_values.get((position1.row, position1.column), 0)
         second = self.center_values.get((position2.row, position2.column), 0)
         third = first + second
-        print("CENTER SCORE: ", third)
+        if work_type == "white":
+            self.white_center = third
+        else:
+            self.blue_center = third
+        # print("CENTER SCORE: ", third)
         # return sum(self.center_values.get((pos.row, pos.column), 0) for pos in positions)
 
         # return sum(self.cells[pos.row][pos.column].building_level for pos in positions)
@@ -227,16 +239,21 @@ class Board:
             if worker == "A" or worker == "B":
                 # position1 = self._workers["A"]
                 # position2 = self._workers["B"]
-                self.calculate_height_score(position1, position2)
-                self.calculate_center_score(position1, position2)
-                self.calculate_distance_score(position1, position2, position3, position4)
+                height = self.calculate_height_score(position1, position2, "white")
+                # print("Position A: ", position1, "Position B: ", position2)
+                center = self.calculate_center_score(position1, position2, "white")
+                distance = self.calculate_distance_score(position1, position2, position3, position4, "white")
+                # self.score_all(height, center, distance)
                 # print(position1, position2)
             elif worker == "Y" or worker == "Z":
                 # position1 = self._workers["Y"]
                 # position2 = self._workers["Z"]
-                self.calculate_height_score(position3, position4)
-                self.calculate_center_score(position3, position4)
-                self.calculate_distance_score(position3, position4, position1, position2)
+                height = self.calculate_height_score(position3, position4, "blue")
+                # print("Position Y: ", position3, "Position Z: ", position4)
+                center = self.calculate_center_score(position3, position4, "blue")
+                distance = self.calculate_distance_score(position3, position4, position1, position2, "blue")
+                # self.score_all(height, center, distance)
+
                 # print(position1, position2)
         else:
             # Handle the case where the position is out of bounds
@@ -269,22 +286,79 @@ class Board:
         return can_build
 
 # curr_pos = self._workers[worker]
-
-    def calculate_distance_score(self, player_pos1, player_pos2, opp_pos1, opp_pos2):
+    def calculate_distance_score(self, player_pos1, player_pos2, opp_pos1, opp_pos2, work_type):
         # Calculate minimum distance for each player worker to any opponent worker
-        min_distance_player_pos1 = min(
-            self.manhattan_distance(player_pos1, opp_pos1),
-            self.manhattan_distance(player_pos1, opp_pos2)
-        )
-        min_distance_player_pos2 = min(
+        if work_type == "white":          
+            min_distance_player_pos1 = min(
+                self.manhattan_distance(player_pos1, opp_pos2),
+                self.manhattan_distance(player_pos2, opp_pos2)
+            )
+            min_distance_player_pos2 = min(
+                self.manhattan_distance(player_pos2, opp_pos1),
+                self.manhattan_distance(player_pos1, opp_pos1)
+            )
+
+            distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
+            self.white_distance = distance_score
+            print("WHITE DISTANCE: ", self.white_distance)
+            return distance_score
+        
+        if work_type == "blue":
+            min_distance_player_pos1 = min(
             self.manhattan_distance(player_pos2, opp_pos1),
-            self.manhattan_distance(player_pos2, opp_pos2)
-        )
-
+            self.manhattan_distance(player_pos1, opp_pos1)
+            )
+            min_distance_player_pos2 = min(
+                self.manhattan_distance(player_pos2, opp_pos2),
+                self.manhattan_distance(player_pos1, opp_pos2)
+            )
+            distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
+            self.blue_distance = distance_score
+            print("BLUE DISTANCE:", self.blue_distance)
+            return distance_score
         # The distance score is 8 minus the sum of these minimum distances
-        distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
-        print("DISTANCE SCORE: ", distance_score)
-        return distance_score
 
+    
     def manhattan_distance(self, pos1, pos2):
         return abs(pos1.row - pos2.row) + abs(pos1.column - pos2.column)
+    # def score_all(self, height, center, distance):
+
+    #     return (height, center, distance)
+
+    def get_blue_scores(self):
+        return self.blue_height, self.blue_center, self.blue_distance
+    
+    def get_white_scores(self):
+        return self.white_height, self.white_center, self.white_distance
+
+
+    # def calculate_distance_score(self, player_pos1, player_pos2, opp_pos1, opp_pos2):
+    #     # Calculate minimum distance for each player worker to any opponent worker
+        
+    #     print("A row:", player_pos1.row, "A column: ", player_pos1.column)
+
+    #     cell = self._positions.pos[player_pos1.column][player_pos1.row]
+    #     # test = self._positions.pos[player_pos1.column][player_pos1.row]
+    #     cell2 = self._positions.pos[player_pos2.column][player_pos2.row]
+    #     cell3 = self._positions.pos[opp_pos1.column][opp_pos1.row]
+    #     cell4 = self._positions.pos[opp_pos2.column][opp_pos2.row]
+
+    #     print("cells pos in distance: ", cell, cell2, cell3, cell4)
+    #     # print("trest", test)
+        
+    #     min_distance_player_pos1 = min(
+    #         self.manhattan_distance(cell, cell3),
+    #         self.manhattan_distance(cell, cell4)
+    #     )
+    #     min_distance_player_pos2 = min(
+    #         self.manhattan_distance(cell2, cell3),
+    #         self.manhattan_distance(cell2, cell4)
+    #     )
+
+    #     # The distance score is 8 minus the sum of these minimum distances
+    #     distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
+    #     print("DISTANCE SCORE: ", distance_score)
+    #     return distance_score
+
+    # def manhattan_distance(self, pos1, pos2):
+    #     return abs(pos1.row - pos2.row) + abs(pos1.column - pos2.column)
