@@ -29,9 +29,11 @@ class Santorini:
         self._curr_player = self._players[self._white_player_index] # start with white
         self._move_history = [] # save ALL MOVES
         self._score = 0
+        self._undo_history_index = -1
         self._undo_history = [] # save all UNDOS
         self._history_index = 0 # start at turn one, used to move thru the history array
         # redo --> moves index back 1 to get the previous history item, returns that item 
+
 
     def _set_next_player(self):
         if self._curr_player._get_type() == "white":
@@ -91,19 +93,26 @@ class Santorini:
         self._move_history[self._history_index].oopsies_undo(worker, self._board)
         print(f"Undone to turn {self._history_index - 1}.")
         self.switch_backwards_turns()
+        self._undo_history_index += 1
         # self.display_turns()
         print(self._board)
         print(self._turn_count)
 
     def redo(self, worker):
-        self._history_index += 1
 
         # self._board = deepcopy(self._move_history[self._history_index - 1])
         # self._move_history[self._history_index].make_moves(worker, self.
         # _board)
-        self._undo_history[self._history_index].make_moves(worker, self._board)
-        print(f"Redone to turn {self._history_index - 1}.")
+        print("len", len(self._undo_history))
+        print("index", self._undo_history_index)
+
+        self._undo_history[self._undo_history_index].make_moves(worker, self._board)
+        print(f"Redone to turn {self._undo_history_index}.")
+        self._turn_count += 1
         print(self._board)
+        self.switch_turns()
+        self.display_turns()
+        
         print(self._turn_count)
 
     def prompt_undo_redo(self, worker):
