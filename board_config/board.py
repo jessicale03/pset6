@@ -88,7 +88,7 @@ class Board:
 
         if (x < 0 or x >= 5 or y < 0 or y >= 5) or (self.empty_cell(self._positions.pos[x][y]) == False):
             return False
-        print("emptuy cell valid direction", self.empty_cell(self._positions.pos[x][y]))
+        # print("emptuy cell valid direction", self.empty_cell(self._positions.pos[x][y]))
         return self.empty_cell(self._positions.pos[x][y])
 
     def is_valid_build_direction(self, worker, moved_direction, build_direction):
@@ -272,7 +272,7 @@ class Board:
         #         return False
         # print(position)
         # return True
-        print(position)
+        # print(position)
         curr_row = position.row
         curr_col = position.column
         
@@ -288,7 +288,7 @@ class Board:
 
         for direction in self._valid_directions.keys():
             if self.is_valid_direction(worker, direction):
-
+                print("we made it into check valid move AND build")
                 # if the position to build in is free, try building
                 for pos in self._positions:
                     if self.empty_cell(pos) == True:
@@ -311,7 +311,7 @@ class Board:
 
             distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
             self.white_distance = distance_score
-            print("WHITE DISTANCE: ", self.white_distance)
+            # print("WHITE DISTANCE: ", self.white_distance)
             return distance_score
         
         if work_type == "blue":
@@ -325,7 +325,7 @@ class Board:
             )
             distance_score = 8 - (min_distance_player_pos1 + min_distance_player_pos2)
             self.blue_distance = distance_score
-            print("BLUE DISTANCE:", self.blue_distance)
+            # print("BLUE DISTANCE:", self.blue_distance)
             return distance_score
         # The distance score is 8 minus the sum of these minimum distances
 

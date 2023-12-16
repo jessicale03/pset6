@@ -33,6 +33,7 @@ class HumanPlayer(Player):
                 continue
             elif not self._board.check_valid_move_AND_buid(selected_worker): 
                 print("There are no possible moves for this worker")
+                #TODO: if no moves for this worker, then opp wins game STOP
                 continue
             else:
                 break  # Exit the loop if the right input is provided
