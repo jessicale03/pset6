@@ -97,10 +97,14 @@ class Santorini:
 
     def redo(self, worker):
         self._history_index += 1
-        self._board = deepcopy(self._move_history[self._history_index - 1])
-        self._move_history[self._history_index].make_moves(worker, self.
-        _board)
+
+        # self._board = deepcopy(self._move_history[self._history_index - 1])
+        # self._move_history[self._history_index].make_moves(worker, self.
+        # _board)
+        self._undo_history[self._history_index].make_moves(worker, self._board)
         print(f"Redone to turn {self._history_index - 1}.")
+        print(self._board)
+        print(self._turn_count)
 
     def prompt_undo_redo(self, worker):
         command = input("undo, redo, or next\n")

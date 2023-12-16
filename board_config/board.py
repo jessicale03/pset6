@@ -119,7 +119,8 @@ class Board:
         # Current position
         curr_pos = self._workers[worker]
         curr_row, curr_col = curr_pos.row, curr_pos.column
-
+        center = self.calculate_center_score(self._workers["A"], self._workers["B"], "white")
+        print("center score for white before move/build: ", center)
         # Calculate new position
         new_row = curr_row + self._valid_directions[direction][0]
         new_col = curr_col + self._valid_directions[direction][1]
@@ -209,8 +210,10 @@ class Board:
         third = first + second
         if work_type == "white":
             self.white_center = third
+            print("CURR white CENTER SCORE: ", self.white_center)
         else:
             self.blue_center = third
+            print("CURR blue CENTER SCORE: ", self.blue_center)
         # print("CENTER SCORE: ", third)
         # return sum(self.center_values.get((pos.row, pos.column), 0) for pos in positions)
 
