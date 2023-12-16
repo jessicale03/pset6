@@ -67,14 +67,14 @@ class HumanPlayer(Player):
 
 
     
-    def get_build_direction(self, worker, opponent):
+    def get_build_direction(self, worker, direction, opponent):
         while True:
             build_direction = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n")
 
             if build_direction not in self._valid_directions:
                 print("Not a valid direction.")
                 continue  # Continue to the next iteration of the loop
-            elif not self._board.is_valid_direction(worker, build_direction):
+            elif not self._board.is_valid_build_direction(worker, direction, build_direction):
                 print(f"This worker is unable to move to {build_direction}")
             else:
                 break  # Exit the loop if the right input is provided

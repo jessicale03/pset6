@@ -28,14 +28,9 @@ class Santorini:
         self._turn_count = 1
         self._curr_player = self._players[self._white_player_index] # start with white
         self._move_history = [] # save ALL MOVES
-        
-
-        if self._score_setting == 'on':
-            self._score = 0
-
-        if self._undo_redo_setting == 'on':
-            self._undo_history = [] # save all UNDOS
-            self._history_index = 0 # start at turn one, used to move thru the history array
+        self._score = 0
+        self._undo_history = [] # save all UNDOS
+        self._history_index = 0 # start at turn one, used to move thru the history array
         # redo --> moves index back 1 to get the previous history item, returns that item 
 
     def _set_next_player(self):
@@ -129,35 +124,35 @@ class Santorini:
         if self._undo_redo_setting == 'on':
             if self.prompt_undo_redo(curr_player) == True:
                 exit
-            else: 
-                opponent = self._players[1 - self._curr_player._curr_player_index] 
-                if curr_player.type == "human":
-                    selected_worker = curr_player.get_worker()
-                    move_direction = curr_player.get_move_direction(selected_worker)
-                    build_direction = curr_player.get_build_direction(selected_worker,  opponent)
+            # else: 
+        opponent = self._players[1 - self._curr_player._curr_player_index] 
+        if curr_player.type == "human":
+            selected_worker = curr_player.get_worker()
+            move_direction = curr_player.get_move_direction(selected_worker)
+            build_direction = curr_player.get_build_direction(selected_worker, move_direction, opponent)
 
-                    move = MakeMoves(selected_worker, move_direction, build_direction)
-                    move.make_moves(selected_worker, self._board)
+            move = MakeMoves(selected_worker, move_direction, build_direction)
+            move.make_moves(selected_worker, self._board)
 
-                    move_string = f'{selected_worker}, {move_direction}, {build_direction}'
-                    print(move_string)
-                    self.switch_turns()
-                    # self.add_move_history(move_string)
-                    self.add_move_history(move)
-                    print(self._board)
+            move_string = f'{selected_worker}, {move_direction}, {build_direction}'
+            print(move_string)
+            self.switch_turns()
+            # self.add_move_history(move_string)
+            self.add_move_history(move)
+            print(self._board)
 
-                if curr_player.type == "random":
-                    random_worker = curr_player._get_random_worker()
-                    random_move = curr_player._get_random_move_direction(random_worker)
-                    print(f'get random move{random_move}')
-                    random_build = curr_player._get_random_build_direction(random_worker, random_move)
+        if curr_player.type == "random":
+            random_worker = curr_player._get_random_worker()
+            random_move = curr_player._get_random_move_direction(random_worker)
+            print(f'get random move{random_move}')
+            random_build = curr_player._get_random_build_direction(random_worker, random_move)
 
-                    move = MakeMoves(random_worker, random_move, random_build)
-                    move.make_moves(random_worker, self._board)
-                    move_string = f'{random_worker}, {random_move},{random_build}'
-                    print(move_string)
-                    self.switch_turns()
-                    print(self._board)
+            move = MakeMoves(random_worker, random_move, random_build)
+            move.make_moves(random_worker, self._board)
+            move_string = f'{random_worker}, {random_move},{random_build}'
+            print(move_string)
+            self.switch_turns()
+            print(self._board)
 
 
 
