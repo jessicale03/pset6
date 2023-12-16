@@ -86,9 +86,9 @@ class Board:
         x = self._workers[worker].row + self._valid_directions[direction][0]
         y = self._workers[worker].column + self._valid_directions[direction][1]
 
-        if x < 0 or x >= 5 or y < 0 or y >= 5:
+        if (x < 0 or x >= 5 or y < 0 or y >= 5) or (self.empty_cell(self._positions.pos[x][y]) == False):
             return False
-
+        print("emptuy cell valid direction", self.empty_cell(self._positions.pos[x][y]))
         return self.empty_cell(self._positions.pos[x][y])
 
     def is_valid_build_direction(self, worker, moved_direction, build_direction):
@@ -104,12 +104,11 @@ class Board:
 
         new_row = curr_row + self._valid_directions[build_direction][0]
         new_col = curr_row + self._valid_directions[build_direction][1]
-
+        print("valid build empty cell", self.empty_cell(self._positions.pos[new_row][new_col]))
         # curr_pos.row = new_row
         # curr_pos.column = new_col
-        if new_row < 0 or new_row >= 5 or new_col < 0 or new_col >= 5:
+        if (new_row < 0 or new_row >= 5 or new_col < 0 or new_col >= 5):
             return False
-
         return self.empty_cell(self._positions.pos[new_row][new_col])
 
         
@@ -265,16 +264,26 @@ class Board:
 
 
     def empty_cell(self, position):
-        is_empty = False 
-        if position.height == 4:
-            return is_empty
+        # is_empty = False 
+        if position.height == 3:
+            return False # NOT EMPTY
+        # print("empty cell position:", type(position))
+        # for worker in self._workers.keys():
+        #     other = self._workers[worker]
+        #     # if position.row == other.row and position.column == other.column:
+        #     if position.check_occupatied(self._workers[worker]):
+        #         return False
+        # print(position)
+        # return True
+        print(position)
+        curr_row = position.row
+        curr_col = position.column
         
-        for worker in self._workers.keys():
-            other = self._workers[worker]
-            if position.row == other.row and position.column == other.column:
-                return is_empty
-
-        return True
+        if self.cells[curr_row][curr_col].worker is not None:
+            print("NOT EMPTY:", curr_row, curr_col)
+            return False
+        else:
+            return True
 
     def check_valid_move_AND_buid(self, worker):
         # go through steps of moving and building and if it works, true, else false
@@ -285,7 +294,8 @@ class Board:
 
                 # if the position to build in is free, try building
                 for pos in self._positions:
-                    if self.empty_cell(pos):
+                    if self.empty_cell(pos) == True:
+                        # print("imma builf here", self.empty_cell(pos))
                         can_build = True
         return can_build
 
