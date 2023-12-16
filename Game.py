@@ -102,10 +102,14 @@ class Santorini:
 
     def redo(self, worker):
         self._history_index += 1
-        self._board = deepcopy(self._move_history[self._history_index - 1])
-        self._move_history[self._history_index].make_moves(worker, self.
-        _board)
+
+        # self._board = deepcopy(self._move_history[self._history_index - 1])
+        # self._move_history[self._history_index].make_moves(worker, self.
+        # _board)
+        self._undo_history[self._history_index].make_moves(worker, self._board)
         print(f"Redone to turn {self._history_index - 1}.")
+        print(self._board)
+        print(self._turn_count)
 
     def prompt_undo_redo(self, worker):
         command = input("undo, redo, or next\n")
@@ -129,7 +133,7 @@ class Santorini:
         if self._undo_redo_setting == 'on':
             if self.prompt_undo_redo(curr_player) == True:
                 exit
-            else: 
+        else: 
                 opponent = self._players[1 - self._curr_player._curr_player_index] 
                 if curr_player.type == "human":
                     selected_worker = curr_player.get_worker()
@@ -143,7 +147,7 @@ class Santorini:
                     print(move_string)
                     self.switch_turns()
                     # self.add_move_history(move_string)
-                    self.add_move_history(move)
+                    # self.add_move_history(move)
                     print(self._board)
 
                 if curr_player.type == "random":
