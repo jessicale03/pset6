@@ -94,9 +94,10 @@ class Santorini:
         print(f"Undone to turn {self._history_index - 1}.")
         self.switch_backwards_turns()
         self._undo_history_index += 1
+        
+        # print(self._board)
         # self.display_turns()
-        print(self._board)
-        print(self._turn_count)
+        # print(self._turn_count)
 
     def redo(self, worker):
 
@@ -108,21 +109,30 @@ class Santorini:
 
         self._undo_history[self._undo_history_index].make_moves(worker, self._board)
         print(f"Redone to turn {self._undo_history_index}.")
-        self._turn_count += 1
-        print(self._board)
+        # self._turn_count += 1
         self.switch_turns()
-        self.display_turns()
+        # print(self._board)
+        # self.display_turns()
         
-        print(self._turn_count)
+        # print(self._turn_count)
 
     def prompt_undo_redo(self, worker):
         command = input("undo, redo, or next\n")
+        opponent = self._players[1 - worker._curr_player_index]
         if command == "undo" and self._history_index > 1:
             self.undo(worker) 
+            self.make_moves()
+            # print(self._board)
+            # self.display_turns()
+            # self.prompt_undo_redo(worker)
             return True
 
         elif command == "redo" and self._history_index < self._turn_count:
             self.redo(worker)
+            self.make_moves()
+            # print(self._board)
+            # self.display_turns()
+            # self.prompt_undo_redo(worker)
             return True
         elif command == "next":
             pass
@@ -133,6 +143,7 @@ class Santorini:
 
     def make_moves(self): #make Moves() object
         curr_player = self._curr_player
+        print(self._board)
         self.display_turns()
         if self._undo_redo_setting == 'on':
             if self.prompt_undo_redo(curr_player) == True:

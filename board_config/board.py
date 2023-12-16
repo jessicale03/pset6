@@ -104,7 +104,7 @@ class Board:
 
         new_row = curr_row + self._valid_directions[build_direction][0]
         new_col = curr_row + self._valid_directions[build_direction][1]
-        print("valid build empty cell", self.empty_cell(self._positions.pos[new_row][new_col]))
+        # print("valid build empty cell", self.empty_cell(self._positions.pos[new_row][new_col]))
         # curr_pos.row = new_row
         # curr_pos.column = new_col
         if (new_row < 0 or new_row >= 5 or new_col < 0 or new_col >= 5):
